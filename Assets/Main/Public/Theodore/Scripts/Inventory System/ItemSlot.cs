@@ -43,27 +43,33 @@ public class ItemSlot : MonoBehaviour
 
     void Interact()
     {
-        if (Inventory == _shopInventory)
+        if (ToggleUI.invUiActive && ToggleUI.shopUiActive)
         {
-            if (Player.GetComponent<PlayerManager>().goldAmount >= ItemData.Price)
+            if (Inventory == _shopInventory)
             {
-                TransferToInventory(_shopInventory, _playerInventory);
+                if (Player.GetComponent<PlayerManager>().goldAmount >= ItemData.Price)
+                {
+                    TransferToInventory(_shopInventory, _playerInventory);
 
-                Player.GetComponent<PlayerManager>().goldAmount -= ItemData.Price;
-                Shop.GetComponent<ShopManager>().goldAmount += ItemData.Price;
+                    Player.GetComponent<PlayerManager>().goldAmount -= ItemData.Price;
+                    Shop.GetComponent<ShopManager>().goldAmount += ItemData.Price;
+                }
+
             }
-
-        }
-        else if (Inventory == _playerInventory)
-        {
-            if (Shop.GetComponent<ShopManager>().goldAmount >= ItemData.Price)
+            else if (Inventory == _playerInventory)
             {
-                TransferToInventory(_playerInventory, _shopInventory);
+                if (Shop.GetComponent<ShopManager>().goldAmount >= ItemData.Price)
+                {
+                    TransferToInventory(_playerInventory, _shopInventory);
 
-                Shop.GetComponent<ShopManager>().goldAmount -= ItemData.Price;
-                Player.GetComponent<PlayerManager>().goldAmount += ItemData.Price;
+                    Shop.GetComponent<ShopManager>().goldAmount -= ItemData.Price;
+                    Player.GetComponent<PlayerManager>().goldAmount += ItemData.Price;
+                }
             }
         }
+
+        // else use item
+
     }
 
     void TransferToInventory(Inventory fromInventory, Inventory toInventory)

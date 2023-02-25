@@ -40,7 +40,7 @@ public class PlayerManager : MonoBehaviour
 
     public void LoadItems()
     {
-        foreach(ItemData itemData in ItemList)
+        foreach (ItemData itemData in ItemList)
         {
             _inventory.AddItem(new Item(itemData));
         }
