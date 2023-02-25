@@ -15,7 +15,7 @@ public class PlayerManager : MonoBehaviour
 
     private Transform _inventoryContainer;
 
-    private InventoryManager _inventoryUI;
+    private InventoryManager _inventoryManager;
 
     private void Awake()
     {
@@ -26,9 +26,9 @@ public class PlayerManager : MonoBehaviour
 
         _inventoryContainer = GameObject.Find("InventorySlotContainer").transform;
 
-        _inventoryUI = GetComponent<InventoryManager>();
+        _inventoryManager = GameObject.Find("InventoryManager").GetComponent<InventoryManager>();
 
-        _inventoryUI.SetInventory(_inventory, _inventoryContainer);
+        _inventoryManager.SetInventory(_inventory, _inventoryContainer);
 
     }
 

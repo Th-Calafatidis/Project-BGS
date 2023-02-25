@@ -12,7 +12,7 @@ public class InventoryManager : MonoBehaviour
 {
     private Inventory _inventory;
 
-    private GameObject entryPrefab;
+    public GameObject entryPrefab;
 
 
     private void Awake()
