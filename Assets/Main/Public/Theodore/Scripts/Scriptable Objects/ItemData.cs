@@ -10,7 +10,17 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Item", menuName = "Item")]
 public class ItemData : ScriptableObject
 {
+    public enum ItemType
+    {
+        Head,
+        Body,
+        Weapon,
+        Shield
+    }
+
     public string ItemName;
+
+    public ItemType ItemSlot;
 
     public Sprite ItemIcon;
 

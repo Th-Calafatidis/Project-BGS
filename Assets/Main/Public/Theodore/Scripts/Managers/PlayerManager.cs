@@ -9,6 +9,8 @@ using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
 {
+    public static PlayerManager Instance;
+
     // The player's inventory
     private Inventory _inventory;
     public Inventory Inventory { get { return _inventory; } set { _inventory = value; } }
@@ -19,8 +21,13 @@ public class PlayerManager : MonoBehaviour
 
     public int goldAmount;
 
+    private Sprite _headSprite;
+    public Sprite HeadSprite { get { return _headSprite; } set { _headSprite = value; } }
+
     private void Awake()
     {
+        Instance = this;
+
         _inventoryContainer = GameObject.Find("InventorySlotContainer").transform;
 
         // Create a new inventory instance for the player when game starts

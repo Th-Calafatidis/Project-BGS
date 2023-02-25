@@ -1405,18 +1405,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &578598384502915396
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7251855351789675424}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1456080429, guid: 56a85167256b1274eb498375253efd9c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &589770717322776993
 GameObject:
   m_ObjectHideFlags: 0
@@ -2834,7 +2822,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!212 &1599629253437859321
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -6233,17 +6221,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!210 &2689368683197806981
-SortingGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2863567038659995567}
-  m_Enabled: 1
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 200
 --- !u!4 &2690815854195717482
 Transform:
   m_ObjectHideFlags: 0
@@ -6922,7 +6899,7 @@ Animator:
   m_GameObject: {fileID: 2863567038659995567}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: c0fbc9a82051e94429aa17cc4b2f48e5, type: 2}
+  m_Controller: {fileID: 9100000, guid: 0365258a9d76d114793eaffa33db1a26, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -7803,8 +7780,9 @@ GameObject:
   m_Component:
   - component: {fileID: 2859495296233357713}
   - component: {fileID: 2804706551544152103}
-  - component: {fileID: 2689368683197806981}
   - component: {fileID: 3129317084030211144}
+  - component: {fileID: 3129317084030211145}
+  - component: {fileID: 3129317084030211146}
   m_Layer: 0
   m_Name: PlayerGFX
   m_TagString: Untagged
@@ -8257,6 +8235,40 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 1}
   m_Size: {x: 2, y: 2.5}
   m_Direction: 0
+--- !u!50 &3129317084030211145
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2863567038659995567}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4
+--- !u!114 &3129317084030211146
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2863567038659995567}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb540e20845fff042a0501503d3b6e22, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _speed: 5
 --- !u!4 &3179373431154304295
 Transform:
   m_ObjectHideFlags: 0
@@ -10502,7 +10514,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &4500522070210181103
 GameObject:
   m_ObjectHideFlags: 0
@@ -11260,7 +11272,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!212 &5201528953907757888
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -14448,7 +14460,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1072311895202996632}
-  - component: {fileID: 578598384502915396}
   - component: {fileID: 5824841569830133573}
   m_Layer: 0
   m_Name: LegR
