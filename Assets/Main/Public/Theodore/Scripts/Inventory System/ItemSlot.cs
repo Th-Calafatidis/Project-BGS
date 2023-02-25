@@ -5,7 +5,9 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 
 // Needs heavy refactoring!!!
@@ -26,8 +28,12 @@ public class ItemSlot : MonoBehaviour
     public GameObject Player;
     public GameObject Shop;
 
+    public GameObject playerHead;
+
     private void Start()
     {
+        playerHead = GameObject.Find("Helmet");
+
         _playerInventory = GameObject.Find("Player").GetComponent<PlayerManager>().Inventory;
         _shopInventory = GameObject.Find("ShopManager").GetComponent<ShopManager>().Inventory;
 
@@ -69,6 +75,16 @@ public class ItemSlot : MonoBehaviour
         }
 
         // else use item
+        else
+        {
+            if (ItemData.ItemSlot == ItemData.ItemType.Head)
+            {
+                // Equip to head
+                playerHead.GetComponent<SpriteRenderer>().sprite = ItemData.FrontSprite;
+
+                // Remove from inventory and put it into equip slot
+            }
+        }
 
     }
 

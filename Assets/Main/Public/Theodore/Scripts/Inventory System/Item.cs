@@ -5,13 +5,23 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using UnityEngine;
 
 public class Item
 {
+    public enum ItemType
+    {
+        Head,
+        Body,
+        Weapon,
+        Shield
+    }
+
     public ItemData ItemData;
     public Sprite ItemIcon;
     public int Price;
+    public ItemType ItemSlot;
 
     /// <summary>
     /// A constructor used to create a new Item instrance.
@@ -22,6 +32,7 @@ public class Item
         ItemData = itemData;
         ItemIcon = itemData.ItemIcon;
         Price = itemData.Price;
+        ItemSlot = (ItemType)itemData.ItemSlot;
     }
 
     /// <summary>

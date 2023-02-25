@@ -24,5 +24,13 @@ public class ItemData : ScriptableObject
 
     public Sprite ItemIcon;
 
+    public Sprite FrontSprite;
+
+    public Sprite BackSprite;
+
+    public Sprite LeftSprite;
+
+    public Sprite RightSprite;
+
     public int Price;
 }
