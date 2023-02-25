@@ -12,13 +12,17 @@ public class Inventory
     // A list of ItemData that the inventory instance will hold
     private List<Item> _itemList;
 
+    private Transform _inventoryContainer;
+
     /// <summary>
     /// A constructor used to create a new inventory instance.
     /// </summary>
-    public Inventory()
+    public Inventory(Transform inventoryContainer)
     {
         // Initialise a new ItemData list for this inventory instance to use
         _itemList = new List<Item>();
+
+        _inventoryContainer = inventoryContainer;
     }
 
     /// <summary>
@@ -46,5 +50,10 @@ public class Inventory
     public List<Item> GetItemList()
     {
         return _itemList;
+    }
+
+    public Transform GetInventoryContainer()
+    {
+        return _inventoryContainer;
     }
 }

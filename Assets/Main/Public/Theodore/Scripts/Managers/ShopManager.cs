@@ -17,18 +17,18 @@ public class ShopManager : MonoBehaviour
 
     private void Awake()
     {
-        _inventoryManager = GameObject.Find("InventoryManager").GetComponent<InventoryManager>();
-
         _inventoryContainer = GameObject.Find("ShopSlotContainer").transform;
 
+        _inventoryManager = GameObject.Find("InventoryManager").GetComponent<InventoryManager>();
+
         // Create inventory instance for the shop
-        _inventory = new Inventory();
+        _inventory = new Inventory(_inventoryContainer);
 
         // Load the preset items into the inventory instance
         LoadItems(ItemList);
 
         // Create the UI for the shop inventory
-        _inventoryManager.SetInventory(_inventory, _inventoryContainer);
+        _inventoryManager.SetInventory(_inventory, _inventory.GetInventoryContainer());
     }
 
     private void LoadItems(List<ItemData> itemDataList)

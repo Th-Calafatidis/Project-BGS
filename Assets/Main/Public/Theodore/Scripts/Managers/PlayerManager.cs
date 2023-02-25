@@ -19,16 +19,16 @@ public class PlayerManager : MonoBehaviour
 
     private void Awake()
     {
+        _inventoryContainer = GameObject.Find("InventorySlotContainer").transform;
+
         // Create a new inventory instance for the player when game starts
-        _inventory = new Inventory();
+        _inventory = new Inventory(_inventoryContainer);
 
         LoadItems();
 
-        _inventoryContainer = GameObject.Find("InventorySlotContainer").transform;
-
         _inventoryManager = GameObject.Find("InventoryManager").GetComponent<InventoryManager>();
 
-        _inventoryManager.SetInventory(_inventory, _inventoryContainer);
+        _inventoryManager.SetInventory(_inventory, _inventory.GetInventoryContainer());
 
     }
 

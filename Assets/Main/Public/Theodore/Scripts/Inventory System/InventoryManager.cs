@@ -36,6 +36,7 @@ public class InventoryManager : MonoBehaviour
             // Assign ItemData to the newEntry
             newEntry.GetComponent<ItemSlot>().ItemData = item.ItemData;
             newEntry.GetComponent<ItemSlot>().Item = item;
+            newEntry.GetComponent<ItemSlot>().Inventory = _inventory;
             newEntry.GetComponentInChildren<Icon>().gameObject.GetComponent<Image>().sprite = item.ItemIcon;
 
             newEntry.SetActive(true);
