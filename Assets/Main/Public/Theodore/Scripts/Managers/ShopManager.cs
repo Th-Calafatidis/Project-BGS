@@ -15,6 +15,8 @@ public class ShopManager : MonoBehaviour
 
     private Transform _inventoryContainer;
 
+    public int goldAmount;
+
     private void Awake()
     {
         _inventoryContainer = GameObject.Find("ShopSlotContainer").transform;

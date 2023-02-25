@@ -156,6 +156,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 74e7f088707f34e49a24ea5762dd064f, type: 2}
   - {fileID: 11400000, guid: 045fbb8c55a35434788fc000da60f9f9, type: 2}
   - {fileID: 11400000, guid: 045fbb8c55a35434788fc000da60f9f9, type: 2}
+  goldAmount: 1000
 --- !u!4 &19516822
 Transform:
   m_ObjectHideFlags: 0
@@ -335,6 +336,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fda1fa989cd0e064ca5b4be5eb00b790, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  goldAmount: 100
   ItemList:
   - {fileID: 11400000, guid: f0ef4b8be8bb9184f851d0318b083c84, type: 2}
 --- !u!4 &204606233

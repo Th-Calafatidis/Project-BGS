@@ -11,6 +11,7 @@ public class Item
 {
     public ItemData ItemData;
     public Sprite ItemIcon;
+    public int Price;
 
     /// <summary>
     /// A constructor used to create a new Item instrance.
@@ -19,7 +20,8 @@ public class Item
     public Item(ItemData itemData)
     {
         ItemData = itemData;
-        ItemIcon = ItemData.ItemIcon;
+        ItemIcon = itemData.ItemIcon;
+        Price = itemData.Price;
     }
 
     /// <summary>

@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ItemName: Sword
   ItemIcon: {fileID: 21300000, guid: 75812cbf9ac75d644bf1d527c792f75d, type: 3}
+  Price: 30

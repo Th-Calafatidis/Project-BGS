@@ -17,6 +17,8 @@ public class PlayerManager : MonoBehaviour
 
     private InventoryManager _inventoryManager;
 
+    public int goldAmount;
+
     private void Awake()
     {
         _inventoryContainer = GameObject.Find("InventorySlotContainer").transform;

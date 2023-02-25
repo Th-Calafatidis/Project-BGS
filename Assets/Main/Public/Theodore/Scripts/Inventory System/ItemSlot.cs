@@ -7,6 +7,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+// Needs heavy refactoring!!!
 public class ItemSlot : MonoBehaviour
 {
     public ItemData ItemData;
@@ -21,6 +23,9 @@ public class ItemSlot : MonoBehaviour
     private Transform _inventoryContainer;
     private Transform _shopContainer;
 
+    public GameObject Player;
+    public GameObject Shop;
+
     private void Start()
     {
         _playerInventory = GameObject.Find("Player").GetComponent<PlayerManager>().Inventory;
@@ -30,35 +35,36 @@ public class ItemSlot : MonoBehaviour
 
         _inventoryContainer = GameObject.Find("InventorySlotContainer").transform;
         _shopContainer = GameObject.Find("ShopSlotContainer").transform;
+
+        Player = GameObject.Find("Player");
+        Shop = GameObject.Find("ShopManager");
+
     }
 
-    //public void Interact()
-    //{
-    //    // add to inventory
-    //    _playerInventory.AddItem(Item);
+    void Interact()
+    {
+        if (Inventory == _shopInventory)
+        {
+            if (Player.GetComponent<PlayerManager>().goldAmount >= ItemData.Price)
+            {
+                TransferToInventory(_shopInventory, _playerInventory);
 
-    //    // destroy inventory entries
-    //    for (int i = 1; i < _inventoryContainer.transform.childCount; i++)
-    //    {
-    //        Destroy(_inventoryContainer.transform.GetChild(i).gameObject);
-    //    }
+                Player.GetComponent<PlayerManager>().goldAmount -= ItemData.Price;
+                Shop.GetComponent<ShopManager>().goldAmount += ItemData.Price;
+            }
 
-    //    // rerarrange inventory items
-    //    _inventoryManager.SetInventory(_playerInventory, _inventoryContainer);
+        }
+        else if (Inventory == _playerInventory)
+        {
+            if (Shop.GetComponent<ShopManager>().goldAmount >= ItemData.Price)
+            {
+                TransferToInventory(_playerInventory, _shopInventory);
 
-    //    // remove the item from itemlist of the container - this does not remove the item.
-    //    _shopInventory.RemoveItem(Item);
-
-    //    // destroy the rest of container the entries
-    //    for (int i = 1; i < _shopContainer.transform.childCount; i++)
-    //    {
-    //        Destroy(_shopContainer.transform.GetChild(i).gameObject);
-    //    }
-
-    //    // rearrange container items
-    //    _inventoryManager.SetInventory(_shopInventory, _shopContainer);
-
-    //}
+                Shop.GetComponent<ShopManager>().goldAmount -= ItemData.Price;
+                Player.GetComponent<PlayerManager>().goldAmount += ItemData.Price;
+            }
+        }
+    }
 
     void TransferToInventory(Inventory fromInventory, Inventory toInventory)
     {
@@ -85,17 +91,5 @@ public class ItemSlot : MonoBehaviour
 
         // rearrange container items
         _inventoryManager.SetInventory(fromInventory, fromInventory.GetInventoryContainer());
-    }
-
-    void Interact()
-    {
-        if (Inventory == _shopInventory)
-        {
-            TransferToInventory(_shopInventory, _playerInventory);
-        }
-        else if (Inventory == _playerInventory)
-        {
-            TransferToInventory(_playerInventory, _shopInventory);
-        }
     }
 }
