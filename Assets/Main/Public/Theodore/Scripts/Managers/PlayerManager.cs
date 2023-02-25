@@ -21,8 +21,24 @@ public class PlayerManager : MonoBehaviour
 
     public int goldAmount;
 
-    private Sprite _headSprite;
-    public Sprite HeadSprite { get { return _headSprite; } set { _headSprite = value; } }
+    // Equipment Parts
+    [Header("Head Parts")]
+    public SpriteRenderer HeadFront;
+    public SpriteRenderer HeadBack;
+    public SpriteRenderer HeadLeft;
+    public SpriteRenderer HeadRight;
+
+    [Header("Weapon Parts")]
+    public SpriteRenderer WeaponFront;
+    public SpriteRenderer WeaponBack;
+    public SpriteRenderer WeaponLeft;
+    public SpriteRenderer WeaponRight;
+
+    [Header("Shield Parts")]
+    public SpriteRenderer ShieldFront;
+    public SpriteRenderer ShieldBack;
+    public SpriteRenderer ShieldLeft;
+    public SpriteRenderer ShieldRight;
 
     private void Awake()
     {

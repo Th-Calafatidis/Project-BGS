@@ -75,20 +75,14 @@ public class ItemSlot : MonoBehaviour
         }
 
         // else use item
-        else
+        else if (ToggleUI.invUiActive && !ToggleUI.shopUiActive)
         {
-            if (ItemData.ItemSlot == ItemData.ItemType.Head)
-            {
-                // Equip to head
-                playerHead.GetComponent<SpriteRenderer>().sprite = ItemData.FrontSprite;
-
-                // Remove from inventory and put it into equip slot
-            }
+            ChangeVisuals();
         }
 
     }
 
-    void TransferToInventory(Inventory fromInventory, Inventory toInventory)
+    private void TransferToInventory(Inventory fromInventory, Inventory toInventory)
     {
         // add to inventory
         toInventory.AddItem(Item);
@@ -113,5 +107,33 @@ public class ItemSlot : MonoBehaviour
 
         // rearrange container items
         _inventoryManager.SetInventory(fromInventory, fromInventory.GetInventoryContainer());
+    }
+
+    private void ChangeVisuals()
+    {
+        if (ItemData.ItemSlot == ItemData.ItemType.Head)
+        {
+            // Equip to head
+            PlayerManager.Instance.HeadFront.sprite = ItemData.FrontSprite;
+            PlayerManager.Instance.HeadBack.sprite = ItemData.BackSprite;
+            PlayerManager.Instance.HeadLeft.sprite = ItemData.SideSprite;
+            PlayerManager.Instance.HeadRight.sprite = ItemData.SideSprite;
+
+            // Remove from inventory and put it into equip slot
+        }
+        else if (ItemData.ItemSlot == ItemData.ItemType.Weapon)
+        {
+            PlayerManager.Instance.WeaponFront.sprite = ItemData.FrontSprite;
+            PlayerManager.Instance.WeaponBack.sprite = ItemData.BackSprite;
+            PlayerManager.Instance.WeaponLeft.sprite = ItemData.SideSprite;
+            PlayerManager.Instance.WeaponRight.sprite = ItemData.SideSprite;
+        }
+        else if (ItemData.ItemSlot == ItemData.ItemType.Shield)
+        {
+            PlayerManager.Instance.ShieldFront.sprite = ItemData.FrontSprite;
+            PlayerManager.Instance.ShieldBack.sprite = ItemData.BackSprite;
+            PlayerManager.Instance.ShieldLeft.sprite = ItemData.FrontSprite;
+            PlayerManager.Instance.ShieldRight.sprite = ItemData.BackSprite;
+        }
     }
 }

@@ -156,6 +156,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 74e7f088707f34e49a24ea5762dd064f, type: 2}
   - {fileID: 11400000, guid: 045fbb8c55a35434788fc000da60f9f9, type: 2}
   - {fileID: 11400000, guid: 045fbb8c55a35434788fc000da60f9f9, type: 2}
+  - {fileID: 11400000, guid: bd7d98367ef51764184fb3c167ba52c2, type: 2}
   goldAmount: 1000
 --- !u!4 &19516822
 Transform:
@@ -338,6 +339,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   goldAmount: 100
+  HeadFront: {fileID: 2688405124918196643}
+  HeadBack: {fileID: 1383310247071853638}
+  HeadLeft: {fileID: 705482062318328937}
+  HeadRight: {fileID: 1239037220023989223}
+  WeaponFront: {fileID: 2715003295920214255}
+  WeaponBack: {fileID: 6881735561729763123}
+  WeaponLeft: {fileID: 5180113274624944682}
+  WeaponRight: {fileID: 1717410746519436264}
+  ShieldFront: {fileID: 2688516096745793881}
+  ShieldBack: {fileID: 2645582428195140202}
+  ShieldLeft: {fileID: 5340416945817367916}
+  ShieldRight: {fileID: 5461737394117394635}
   ItemList:
   - {fileID: 11400000, guid: f0ef4b8be8bb9184f851d0318b083c84, type: 2}
 --- !u!4 &204606233
