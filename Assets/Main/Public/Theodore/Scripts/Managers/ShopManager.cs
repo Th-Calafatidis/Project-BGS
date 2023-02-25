@@ -9,6 +9,7 @@ public class ShopManager : MonoBehaviour
 
     // The inventory instance the shop will have.
     private Inventory _inventory;
+    public Inventory Inventory { get { return _inventory; } set { _inventory = value; } }
 
     private InventoryManager _inventoryManager;
 

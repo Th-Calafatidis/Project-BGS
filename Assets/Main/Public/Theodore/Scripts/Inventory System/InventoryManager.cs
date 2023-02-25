@@ -7,6 +7,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class InventoryManager : MonoBehaviour
 {
@@ -33,6 +34,9 @@ public class InventoryManager : MonoBehaviour
             GameObject newEntry = Instantiate(entryPrefab, containerUI);
 
             // Assign ItemData to the newEntry
+            newEntry.GetComponent<ItemSlot>().ItemData = item.ItemData;
+            newEntry.GetComponent<ItemSlot>().Item = item;
+            newEntry.GetComponentInChildren<Icon>().gameObject.GetComponent<Image>().sprite = item.ItemIcon;
 
             newEntry.SetActive(true);
         }
