@@ -3,86 +3,81 @@
 //
 // Description: A way to srore an Item instance on each item slot prefab, to be used whenever necessary from accessing each item slot.
 
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
 
-// Needs heavy refactoring!!!
 public class ItemSlot : MonoBehaviour
 {
+    // Store item data, item and inventory this item slot is part of
+    // Note: These are accessed in InventoryManager.
+    // I could use getters and setters instead of making them public, but i am running out of time so i decided to leave them as is.
     public ItemData ItemData;
     public Item Item;
     public Inventory Inventory;
 
-    private Inventory _playerInventory;
-    private Inventory _shopInventory;
-
+    // Referances to inventory manager, player and shopManager
     private InventoryManager _inventoryManager;
-
-    private Transform _inventoryContainer;
-    private Transform _shopContainer;
-
-    public GameObject Player;
-    public GameObject Shop;
-
-    public GameObject playerHead;
+    private GameObject _player;
+    private GameObject _shopManager;
 
     private void Start()
     {
-        playerHead = GameObject.Find("Helmet");
+        _inventoryManager = GameObject.Find("GameManager").GetComponent<InventoryManager>();
 
-        _playerInventory = GameObject.Find("Player").GetComponent<PlayerManager>().Inventory;
-        _shopInventory = GameObject.Find("ShopManager").GetComponent<ShopManager>().Inventory;
-
-        _inventoryManager = GameObject.Find("InventoryManager").GetComponent<InventoryManager>();
-
-        _inventoryContainer = GameObject.Find("InventorySlotContainer").transform;
-        _shopContainer = DatabaseManager.Instance.ShopContainer;
-
-        Player = GameObject.Find("Player");
-        Shop = GameObject.Find("ShopManager");
-
+        _player = GameObject.Find("Player");
+        _shopManager = GameObject.Find("ShopManager");
     }
 
     void Interact()
     {
-        if (ToggleUI.invUiActive && ToggleUI.shopUiActive)
+        // If both the shop UI panel and the player inventory UI panels are active, player is trading
+        if (UIManager.invUiActive && UIManager.shopUiActive)
         {
-            if (Inventory == _shopInventory)
+            // If the inventory the current item is in is the shop inventory,
+            // we want to "buy" the item and transfer it to the player's inventory
+            if (Inventory == ShopManager.Instance.Inventory)
             {
-                if (Player.GetComponent<PlayerManager>().goldAmount >= ItemData.Price)
+                // Check if the player has enough gold to buy the item
+                if (_player.GetComponent<PlayerManager>().PlayerGoldAmount >= ItemData.Price)
                 {
-                    TransferToInventory(_shopInventory, _playerInventory);
+                    // Transfer the item
+                    TransferToInventory(ShopManager.Instance.Inventory, PlayerManager.Instance.Inventory);
 
-                    SubtractGoldAmount(ref Player.GetComponent<PlayerManager>().goldAmount);
-                    AddGoldAmount(ref Shop.GetComponent<ShopManager>().goldAmount);
+                    // Calculate the gold of the transaction
+                    SubtractGoldAmount(ref _player.GetComponent<PlayerManager>().PlayerGoldAmount);
+                    AddGoldAmount(ref _shopManager.GetComponent<ShopManager>().ShopGoldAmount);
                 }
 
             }
-            else if (Inventory == _playerInventory)
+            // // If the inventory the current item is in is the player's inventory,
+            // we want to "sell" the item and transfer it to the shop's inventory
+            else if (Inventory == PlayerManager.Instance.Inventory)
             {
-                if (Shop.GetComponent<ShopManager>().goldAmount >= ItemData.Price)
+                if (_shopManager.GetComponent<ShopManager>().ShopGoldAmount >= ItemData.Price)
                 {
-                    TransferToInventory(_playerInventory, _shopInventory);
+                    TransferToInventory(PlayerManager.Instance.Inventory, ShopManager.Instance.Inventory);
 
-                    SubtractGoldAmount(ref Shop.GetComponent<ShopManager>().goldAmount);
-                    AddGoldAmount(ref Player.GetComponent<PlayerManager>().goldAmount);
+                    SubtractGoldAmount(ref _shopManager.GetComponent<ShopManager>().ShopGoldAmount);
+                    AddGoldAmount(ref _player.GetComponent<PlayerManager>().PlayerGoldAmount);
 
                 }
             }
         }
 
-        // else use item
-        else if (ToggleUI.invUiActive && !ToggleUI.shopUiActive)
+        // else we equip the item
+        else if (UIManager.invUiActive && !UIManager.shopUiActive)
         {
-            ChangeVisuals();
+            EquipItem();
         }
 
     }
 
+    /// <summary>
+    /// Transfers an item from an inventory to another.
+    /// </summary>
+    /// <param name="fromInventory"> The inventory to transfer the item from.</param>
+    /// <param name="toInventory"> The inventory to transfer the item to. </param>
     private void TransferToInventory(Inventory fromInventory, Inventory toInventory)
     {
         // add to inventory
@@ -110,21 +105,23 @@ public class ItemSlot : MonoBehaviour
         _inventoryManager.SetInventory(fromInventory, fromInventory.GetInventoryContainer());
     }
 
-    private void ChangeVisuals()
+    /// <summary>
+    /// Handles equipping an item.
+    /// </summary>
+    private void EquipItem()
     {
-        // This duplicates the item!!!
-
-
+        // Check to see what ItemType is assigned to the item to know where to place it in the equip slots
+        // and also which sprites to change for the visuals.
+        // NOTE: I could use a switch statement to make it easier to read.
+        // Also there is a lot of repeating code here. I could think about shortening it and using some functions and parameters to do the job cleaner.
         if (ItemData.ItemSlot == ItemData.ItemType.Head)
         {
-
             if (PlayerManager.Instance.HeadEquip != null)
             {
-                _playerInventory.AddItem(PlayerManager.Instance.HeadEquip);
+                PlayerManager.Instance.Inventory.AddItem(PlayerManager.Instance.HeadEquip);
 
                 // rerarrange inventory items
-                _inventoryManager.SetInventory(_playerInventory, _playerInventory.GetInventoryContainer());
-
+                _inventoryManager.SetInventory(PlayerManager.Instance.Inventory, PlayerManager.Instance.Inventory.GetInventoryContainer());
             }
 
             // Equip to head
@@ -134,16 +131,16 @@ public class ItemSlot : MonoBehaviour
             PlayerManager.Instance.HeadRight.sprite = ItemData.SideSprite;
 
             // Remove from inventory and place on equipment slots
-            _playerInventory.RemoveItem(Item);
+            PlayerManager.Instance.Inventory.RemoveItem(Item);
 
             // Destroy inventory entries
-            for (int i = 1; i < _playerInventory.GetInventoryContainer().transform.childCount; i++)
+            for (int i = 1; i < PlayerManager.Instance.Inventory.GetInventoryContainer().transform.childCount; i++)
             {
-                Destroy(_playerInventory.GetInventoryContainer().transform.GetChild(i).gameObject);
+                Destroy(PlayerManager.Instance.Inventory.GetInventoryContainer().transform.GetChild(i).gameObject);
             }
 
             // rerarrange inventory items
-            _inventoryManager.SetInventory(_playerInventory, _playerInventory.GetInventoryContainer());
+            _inventoryManager.SetInventory(PlayerManager.Instance.Inventory, PlayerManager.Instance.Inventory.GetInventoryContainer());
 
             // Equip to slot
             PlayerManager.Instance.HeadEquip = Item;
@@ -160,10 +157,10 @@ public class ItemSlot : MonoBehaviour
 
             if (PlayerManager.Instance.WeaponEquip != null)
             {
-                _playerInventory.AddItem(PlayerManager.Instance.WeaponEquip);
+                PlayerManager.Instance.Inventory.AddItem(PlayerManager.Instance.WeaponEquip);
 
                 // rerarrange inventory items
-                _inventoryManager.SetInventory(_playerInventory, _playerInventory.GetInventoryContainer());
+                _inventoryManager.SetInventory(PlayerManager.Instance.Inventory, PlayerManager.Instance.Inventory.GetInventoryContainer());
 
             }
 
@@ -173,16 +170,16 @@ public class ItemSlot : MonoBehaviour
             PlayerManager.Instance.WeaponRight.sprite = ItemData.SideSprite;
 
             // Remove from inventory and place on equipment slots
-            _playerInventory.RemoveItem(Item);
+            PlayerManager.Instance.Inventory.RemoveItem(Item);
 
             // Destroy inventory entries
-            for (int i = 1; i < _playerInventory.GetInventoryContainer().transform.childCount; i++)
+            for (int i = 1; i < PlayerManager.Instance.Inventory.GetInventoryContainer().transform.childCount; i++)
             {
-                Destroy(_playerInventory.GetInventoryContainer().transform.GetChild(i).gameObject);
+                Destroy(PlayerManager.Instance.Inventory.GetInventoryContainer().transform.GetChild(i).gameObject);
             }
 
             // rerarrange inventory items
-            _inventoryManager.SetInventory(_playerInventory, _playerInventory.GetInventoryContainer());
+            _inventoryManager.SetInventory(PlayerManager.Instance.Inventory, PlayerManager.Instance.Inventory.GetInventoryContainer());
 
             // Equip to slot
             PlayerManager.Instance.WeaponEquip = Item;
@@ -198,10 +195,10 @@ public class ItemSlot : MonoBehaviour
         {
             if (PlayerManager.Instance.ShieldEquip != null)
             {
-                _playerInventory.AddItem(PlayerManager.Instance.ShieldEquip);
+                PlayerManager.Instance.Inventory.AddItem(PlayerManager.Instance.ShieldEquip);
 
                 // rerarrange inventory items
-                _inventoryManager.SetInventory(_playerInventory, _playerInventory.GetInventoryContainer());
+                _inventoryManager.SetInventory(PlayerManager.Instance.Inventory, PlayerManager.Instance.Inventory.GetInventoryContainer());
 
             }
 
@@ -211,16 +208,16 @@ public class ItemSlot : MonoBehaviour
             PlayerManager.Instance.ShieldRight.sprite = ItemData.BackSprite;
 
             // Remove from inventory and place on equipment slots
-            _playerInventory.RemoveItem(Item);
+            PlayerManager.Instance.Inventory.RemoveItem(Item);
 
             // Destroy inventory entries
-            for (int i = 1; i < _playerInventory.GetInventoryContainer().transform.childCount; i++)
+            for (int i = 1; i < PlayerManager.Instance.Inventory.GetInventoryContainer().transform.childCount; i++)
             {
-                Destroy(_playerInventory.GetInventoryContainer().transform.GetChild(i).gameObject);
+                Destroy(PlayerManager.Instance.Inventory.GetInventoryContainer().transform.GetChild(i).gameObject);
             }
 
             // rerarrange inventory items
-            _inventoryManager.SetInventory(_playerInventory, _playerInventory.GetInventoryContainer());
+            _inventoryManager.SetInventory(PlayerManager.Instance.Inventory, PlayerManager.Instance.Inventory.GetInventoryContainer());
 
             // Equip to slot
             PlayerManager.Instance.ShieldEquip = Item;
@@ -253,9 +250,9 @@ public class ItemSlot : MonoBehaviour
             PlayerManager.Instance.HeadRight.sprite = null;
 
             // Add item to inventory
-            _playerInventory.AddItem(PlayerManager.Instance.HeadEquip);
+            PlayerManager.Instance.Inventory.AddItem(PlayerManager.Instance.HeadEquip);
 
-            _inventoryManager.SetInventory(_playerInventory, _playerInventory.GetInventoryContainer());
+            _inventoryManager.SetInventory(PlayerManager.Instance.Inventory, PlayerManager.Instance.Inventory.GetInventoryContainer());
 
             // Remove item from equip slot
             PlayerManager.Instance.HeadEquip = null;
@@ -272,9 +269,9 @@ public class ItemSlot : MonoBehaviour
             PlayerManager.Instance.WeaponRight.sprite = null;
 
             // Add item to inventory
-            _playerInventory.AddItem(PlayerManager.Instance.WeaponEquip);
+            PlayerManager.Instance.Inventory.AddItem(PlayerManager.Instance.WeaponEquip);
 
-            _inventoryManager.SetInventory(_playerInventory, _playerInventory.GetInventoryContainer());
+            _inventoryManager.SetInventory(PlayerManager.Instance.Inventory, PlayerManager.Instance.Inventory.GetInventoryContainer());
 
             // Remove item from equip slot
             PlayerManager.Instance.WeaponEquip = null;
@@ -291,19 +288,19 @@ public class ItemSlot : MonoBehaviour
             PlayerManager.Instance.ShieldRight.sprite = null;
 
             // Add item to inventory
-            _playerInventory.AddItem(PlayerManager.Instance.ShieldEquip);
+            PlayerManager.Instance.Inventory.AddItem(PlayerManager.Instance.ShieldEquip);
 
-            _inventoryManager.SetInventory(_playerInventory, _playerInventory.GetInventoryContainer());
+            _inventoryManager.SetInventory(PlayerManager.Instance.Inventory, PlayerManager.Instance.Inventory.GetInventoryContainer());
 
             // Remove item from equip slot
             PlayerManager.Instance.ShieldEquip = null;
         }
 
         // Destroy inventory entries
-        DestroyInventoryEntries(_playerInventory);
+        DestroyInventoryEntries(PlayerManager.Instance.Inventory);
 
         // Setup the new entries
-        _inventoryManager.SetInventory(_playerInventory, DatabaseManager.Instance.InventoryContainer);
+        _inventoryManager.SetInventory(PlayerManager.Instance.Inventory, DatabaseManager.Instance.InventoryContainer);
 
         ItemData = null;
     }

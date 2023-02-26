@@ -3,9 +3,6 @@
 //
 // Description: An item base class for the creation of new items. Each item instance will hold data loaded to it from the respective ItemData it was created from.
 
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
 using UnityEngine;
 
 public class Item
@@ -33,14 +30,5 @@ public class Item
         ItemIcon = itemData.ItemIcon;
         Price = itemData.Price;
         ItemSlot = (ItemType)itemData.ItemSlot;
-    }
-
-    /// <summary>
-    /// Method used to get the icon sprite of an item.
-    /// </summary>
-    /// <returns></returns>
-    public Sprite GetSprite()
-    {
-        return ItemData.ItemIcon;
     }
 }

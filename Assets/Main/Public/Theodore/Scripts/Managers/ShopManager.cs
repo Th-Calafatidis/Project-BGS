@@ -2,10 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShopManager : MonoBehaviour
+public class ShopManager : StaticInstance<ShopManager>
 {
-    public static ShopManager Instance;
-
     // A preset list of items the shop will hold. Can be set from the inspector.
     public List<ItemData> ItemList;
 
@@ -15,20 +13,16 @@ public class ShopManager : MonoBehaviour
 
     private InventoryManager _inventoryManager;
 
-    private Transform _inventoryContainer;
+    public int ShopGoldAmount;
 
-    public int goldAmount;
-
-    private void Awake()
+    protected override void Awake()
     {
-        Instance = this;
+        base.Awake();
 
-        _inventoryContainer = GameObject.Find("ShopSlotContainer").transform;
-
-        _inventoryManager = GameObject.Find("InventoryManager").GetComponent<InventoryManager>();
+        _inventoryManager = DatabaseManager.Instance.InventoryManager.GetComponent<InventoryManager>();
 
         // Create inventory instance for the shop
-        _inventory = new Inventory(_inventoryContainer);
+        _inventory = new Inventory(DatabaseManager.Instance.ShopContainer);
 
         // Load the preset items into the inventory instance
         LoadItems(ItemList);
@@ -37,6 +31,7 @@ public class ShopManager : MonoBehaviour
         _inventoryManager.SetInventory(_inventory, _inventory.GetInventoryContainer());
     }
 
+    // Loads the items placed in the itemDataList into the inventory -- Can take an inventory as param to be used for any inventory
     private void LoadItems(List<ItemData> itemDataList)
     {
         foreach (ItemData itemData in itemDataList)

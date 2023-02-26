@@ -1,4 +1,8 @@
-using System.Collections;
+// Date: 2/25/2023
+// Developer: Theodore Calafatidis
+//
+// Description: Responsible for moving the player, activating the appropriate player sprites and handling player animations.
+
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,14 +11,14 @@ public class PlayerControler : MonoBehaviour
     private Rigidbody2D _rb2d;
     private Animator _animator;
 
-    [SerializeField] private GameObject _gfxFront;
-    [SerializeField] private GameObject _gfxBack;
-    [SerializeField] private GameObject _gfxLeft;
-    [SerializeField] private GameObject _gfxRight;
     private List<GameObject> _gfx = new List<GameObject>();
 
     private Vector2 _moveInput;
 
+    [SerializeField] private GameObject _gfxFront;
+    [SerializeField] private GameObject _gfxBack;
+    [SerializeField] private GameObject _gfxLeft;
+    [SerializeField] private GameObject _gfxRight;
     [SerializeField] private float _speed;
 
     void Awake()
@@ -24,16 +28,9 @@ public class PlayerControler : MonoBehaviour
 
         _animator = GetComponentInChildren<Animator>();
 
-        //_gfxFront = transform.GetChild(0).gameObject;
         _gfx.Add(_gfxFront);
-
-        //_gfxBack = transform.GetChild(1).gameObject;
         _gfx.Add(_gfxBack);
-
-        //_gfxLeft = transform.GetChild(2).gameObject;
         _gfx.Add(_gfxLeft);
-
-        //_gfxRight = transform.GetChild(3).gameObject;
         _gfx.Add(_gfxRight);
 
     }
@@ -47,7 +44,7 @@ public class PlayerControler : MonoBehaviour
 
     private void FixedUpdate()
     {
-        _rb2d.MovePosition(_rb2d.position + _moveInput * _speed * Time.fixedDeltaTime);
+        _rb2d.MovePosition(_rb2d.position + _moveInput.normalized * _speed * Time.fixedDeltaTime);
     }
 
     void GatherInput()

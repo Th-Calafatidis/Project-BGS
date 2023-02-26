@@ -1,18 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
+// Date: 2/25/2023
+// Developer: Theodore Calafatidis
+//
+// Description: This class is meant to be empty. It is placed upon an object so that it can easily be accessed via GetComponent<Icon>().
+
 using UnityEngine;
 
 public class Icon : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    
 }

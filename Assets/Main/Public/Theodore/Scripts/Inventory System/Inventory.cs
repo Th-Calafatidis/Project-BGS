@@ -3,16 +3,15 @@
 //
 // Description: The base class from which all inventory instances will be created.
 
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Inventory
 {
-    // A list of ItemData that the inventory instance will hold
+    // A list of Items that the inventory instance will hold
     private List<Item> _itemList;
 
+    // The transform into which the inventory will be displayed
     private Transform _inventoryContainer;
 
     /// <summary>
@@ -20,9 +19,10 @@ public class Inventory
     /// </summary>
     public Inventory(Transform inventoryContainer)
     {
-        // Initialise a new ItemData list for this inventory instance to use
+        // Initialise a new Item list for this inventory instance to use
         _itemList = new List<Item>();
 
+        // Set the container into which the inventory will be created
         _inventoryContainer = inventoryContainer;
 
     }
@@ -56,6 +56,10 @@ public class Inventory
         return _itemList;
     }
 
+    /// <summary>
+    /// Gets the transform of the inventory container the items are displayed in
+    /// </summary>
+    /// <returns> The transform of the inventory container </returns>
     public Transform GetInventoryContainer()
     {
         return _inventoryContainer;
