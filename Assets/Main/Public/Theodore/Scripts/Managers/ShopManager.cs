@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class ShopManager : MonoBehaviour
 {
+    public static ShopManager Instance;
+
     // A preset list of items the shop will hold. Can be set from the inspector.
     public List<ItemData> ItemList;
 
@@ -19,6 +21,8 @@ public class ShopManager : MonoBehaviour
 
     private void Awake()
     {
+        Instance = this;
+
         _inventoryContainer = GameObject.Find("ShopSlotContainer").transform;
 
         _inventoryManager = GameObject.Find("InventoryManager").GetComponent<InventoryManager>();

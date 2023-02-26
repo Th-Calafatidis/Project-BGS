@@ -57,8 +57,8 @@ public class ItemSlot : MonoBehaviour
                 {
                     TransferToInventory(_shopInventory, _playerInventory);
 
-                    Player.GetComponent<PlayerManager>().goldAmount -= ItemData.Price;
-                    Shop.GetComponent<ShopManager>().goldAmount += ItemData.Price;
+                    SubtractGoldAmount(ref Player.GetComponent<PlayerManager>().goldAmount);
+                    AddGoldAmount(ref Shop.GetComponent<ShopManager>().goldAmount);
                 }
 
             }
@@ -68,8 +68,9 @@ public class ItemSlot : MonoBehaviour
                 {
                     TransferToInventory(_playerInventory, _shopInventory);
 
-                    Shop.GetComponent<ShopManager>().goldAmount -= ItemData.Price;
-                    Player.GetComponent<PlayerManager>().goldAmount += ItemData.Price;
+                    SubtractGoldAmount(ref Shop.GetComponent<ShopManager>().goldAmount);
+                    AddGoldAmount(ref Player.GetComponent<PlayerManager>().goldAmount);
+
                 }
             }
         }
@@ -112,7 +113,7 @@ public class ItemSlot : MonoBehaviour
     private void ChangeVisuals()
     {
         // This duplicates the item!!!
-        
+
 
         if (ItemData.ItemSlot == ItemData.ItemType.Head)
         {
@@ -314,5 +315,15 @@ public class ItemSlot : MonoBehaviour
         {
             Destroy(inventory.GetInventoryContainer().transform.GetChild(i).gameObject);
         }
+    }
+
+    void AddGoldAmount(ref int varToChange)
+    {
+        varToChange += ItemData.Price;
+    }
+
+    void SubtractGoldAmount(ref int varToChange)
+    {
+        varToChange -= ItemData.Price;
     }
 }

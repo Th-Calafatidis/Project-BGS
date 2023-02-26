@@ -7,10 +7,10 @@ public class PlayerControler : MonoBehaviour
     private Rigidbody2D _rb2d;
     private Animator _animator;
 
-    private GameObject _gfxFront;
-    private GameObject _gfxBack;
-    private GameObject _gfxLeft;
-    private GameObject _gfxRight;
+    [SerializeField] private GameObject _gfxFront;
+    [SerializeField] private GameObject _gfxBack;
+    [SerializeField] private GameObject _gfxLeft;
+    [SerializeField] private GameObject _gfxRight;
     private List<GameObject> _gfx = new List<GameObject>();
 
     private Vector2 _moveInput;
@@ -22,18 +22,18 @@ public class PlayerControler : MonoBehaviour
         _rb2d = GetComponent<Rigidbody2D>();
         _rb2d.gravityScale = 0f;
 
-        _animator = GetComponent<Animator>();
+        _animator = GetComponentInChildren<Animator>();
 
-        _gfxFront = transform.GetChild(0).gameObject;
+        //_gfxFront = transform.GetChild(0).gameObject;
         _gfx.Add(_gfxFront);
 
-        _gfxBack = transform.GetChild(1).gameObject;
+        //_gfxBack = transform.GetChild(1).gameObject;
         _gfx.Add(_gfxBack);
 
-        _gfxLeft = transform.GetChild(2).gameObject;
+        //_gfxLeft = transform.GetChild(2).gameObject;
         _gfx.Add(_gfxLeft);
 
-        _gfxRight = transform.GetChild(3).gameObject;
+        //_gfxRight = transform.GetChild(3).gameObject;
         _gfx.Add(_gfxRight);
 
     }
