@@ -3,6 +3,7 @@
 //
 // Description: The base class from which all inventory instances will be created.
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -23,6 +24,7 @@ public class Inventory
         _itemList = new List<Item>();
 
         _inventoryContainer = inventoryContainer;
+
     }
 
     /// <summary>
@@ -32,6 +34,7 @@ public class Inventory
     public void AddItem(Item item)
     {
         _itemList.Add(item);
+
     }
 
     /// <summary>
@@ -41,6 +44,7 @@ public class Inventory
     public void RemoveItem(Item item)
     {
         _itemList.Remove(item);
+
     }
 
     /// <summary>

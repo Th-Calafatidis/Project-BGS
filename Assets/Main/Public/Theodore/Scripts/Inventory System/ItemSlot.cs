@@ -40,7 +40,7 @@ public class ItemSlot : MonoBehaviour
         _inventoryManager = GameObject.Find("InventoryManager").GetComponent<InventoryManager>();
 
         _inventoryContainer = GameObject.Find("InventorySlotContainer").transform;
-        _shopContainer = GameObject.Find("ShopSlotContainer").transform;
+        _shopContainer = DatabaseManager.Instance.ShopContainer;
 
         Player = GameObject.Find("Player");
         Shop = GameObject.Find("ShopManager");
@@ -96,7 +96,7 @@ public class ItemSlot : MonoBehaviour
         // rerarrange inventory items
         _inventoryManager.SetInventory(toInventory, toInventory.GetInventoryContainer());
 
-        // remove the item from itemlist of the container - this does not remove the item.
+        // remove the item from itemlist of the container
         fromInventory.RemoveItem(Item);
 
         // destroy the rest of container the entries
@@ -111,29 +111,208 @@ public class ItemSlot : MonoBehaviour
 
     private void ChangeVisuals()
     {
+        // This duplicates the item!!!
+        
+
         if (ItemData.ItemSlot == ItemData.ItemType.Head)
         {
+
+            if (PlayerManager.Instance.HeadEquip != null)
+            {
+                _playerInventory.AddItem(PlayerManager.Instance.HeadEquip);
+
+                // rerarrange inventory items
+                _inventoryManager.SetInventory(_playerInventory, _playerInventory.GetInventoryContainer());
+
+            }
+
             // Equip to head
             PlayerManager.Instance.HeadFront.sprite = ItemData.FrontSprite;
             PlayerManager.Instance.HeadBack.sprite = ItemData.BackSprite;
             PlayerManager.Instance.HeadLeft.sprite = ItemData.SideSprite;
             PlayerManager.Instance.HeadRight.sprite = ItemData.SideSprite;
 
-            // Remove from inventory and put it into equip slot
+            // Remove from inventory and place on equipment slots
+            _playerInventory.RemoveItem(Item);
+
+            // Destroy inventory entries
+            for (int i = 1; i < _playerInventory.GetInventoryContainer().transform.childCount; i++)
+            {
+                Destroy(_playerInventory.GetInventoryContainer().transform.GetChild(i).gameObject);
+            }
+
+            // rerarrange inventory items
+            _inventoryManager.SetInventory(_playerInventory, _playerInventory.GetInventoryContainer());
+
+            // Equip to slot
+            PlayerManager.Instance.HeadEquip = Item;
+
+            // Place Icon to Slot
+            DatabaseManager.Instance.HeadSlot.GetComponentInChildren<Icon>().gameObject.GetComponent<Image>().sprite = Item.ItemIcon;
+
+            // Store ItemData
+            DatabaseManager.Instance.HeadSlot.GetComponent<ItemSlot>().ItemData = Item.ItemData;
+
         }
         else if (ItemData.ItemSlot == ItemData.ItemType.Weapon)
         {
+
+            if (PlayerManager.Instance.WeaponEquip != null)
+            {
+                _playerInventory.AddItem(PlayerManager.Instance.WeaponEquip);
+
+                // rerarrange inventory items
+                _inventoryManager.SetInventory(_playerInventory, _playerInventory.GetInventoryContainer());
+
+            }
+
             PlayerManager.Instance.WeaponFront.sprite = ItemData.FrontSprite;
             PlayerManager.Instance.WeaponBack.sprite = ItemData.BackSprite;
             PlayerManager.Instance.WeaponLeft.sprite = ItemData.SideSprite;
             PlayerManager.Instance.WeaponRight.sprite = ItemData.SideSprite;
+
+            // Remove from inventory and place on equipment slots
+            _playerInventory.RemoveItem(Item);
+
+            // Destroy inventory entries
+            for (int i = 1; i < _playerInventory.GetInventoryContainer().transform.childCount; i++)
+            {
+                Destroy(_playerInventory.GetInventoryContainer().transform.GetChild(i).gameObject);
+            }
+
+            // rerarrange inventory items
+            _inventoryManager.SetInventory(_playerInventory, _playerInventory.GetInventoryContainer());
+
+            // Equip to slot
+            PlayerManager.Instance.WeaponEquip = Item;
+
+            // Place Icon to Slot
+            DatabaseManager.Instance.WeaponSlot.GetComponentInChildren<Icon>().gameObject.GetComponent<Image>().sprite = Item.ItemIcon;
+
+            // Store ItemData
+            DatabaseManager.Instance.WeaponSlot.GetComponent<ItemSlot>().ItemData = Item.ItemData;
+
         }
         else if (ItemData.ItemSlot == ItemData.ItemType.Shield)
         {
+            if (PlayerManager.Instance.ShieldEquip != null)
+            {
+                _playerInventory.AddItem(PlayerManager.Instance.ShieldEquip);
+
+                // rerarrange inventory items
+                _inventoryManager.SetInventory(_playerInventory, _playerInventory.GetInventoryContainer());
+
+            }
+
             PlayerManager.Instance.ShieldFront.sprite = ItemData.FrontSprite;
             PlayerManager.Instance.ShieldBack.sprite = ItemData.BackSprite;
             PlayerManager.Instance.ShieldLeft.sprite = ItemData.FrontSprite;
             PlayerManager.Instance.ShieldRight.sprite = ItemData.BackSprite;
+
+            // Remove from inventory and place on equipment slots
+            _playerInventory.RemoveItem(Item);
+
+            // Destroy inventory entries
+            for (int i = 1; i < _playerInventory.GetInventoryContainer().transform.childCount; i++)
+            {
+                Destroy(_playerInventory.GetInventoryContainer().transform.GetChild(i).gameObject);
+            }
+
+            // rerarrange inventory items
+            _inventoryManager.SetInventory(_playerInventory, _playerInventory.GetInventoryContainer());
+
+            // Equip to slot
+            PlayerManager.Instance.ShieldEquip = Item;
+
+            // Place Icon to Slot
+            DatabaseManager.Instance.ShieldSlot.GetComponentInChildren<Icon>().gameObject.GetComponent<Image>().sprite = Item.ItemIcon;
+
+            // Store ItemData
+            DatabaseManager.Instance.ShieldSlot.GetComponent<ItemSlot>().ItemData = Item.ItemData;
+        }
+    }
+
+    public void RemoveEquipment()
+    {
+        if (ItemData == null)
+            return;
+
+        // Load Icon
+        Sprite icon = Resources.Load<Sprite>("IconEmpty");
+
+        if (ItemData.ItemSlot == ItemData.ItemType.Head)
+        {
+            // Change icon Sprites to null
+            DatabaseManager.Instance.HeadSlot.GetComponentInChildren<Icon>().gameObject.GetComponent<Image>().sprite = icon;
+
+            // Change visuals to null
+            PlayerManager.Instance.HeadFront.sprite = null;
+            PlayerManager.Instance.HeadBack.sprite = null;
+            PlayerManager.Instance.HeadLeft.sprite = null;
+            PlayerManager.Instance.HeadRight.sprite = null;
+
+            // Add item to inventory
+            _playerInventory.AddItem(PlayerManager.Instance.HeadEquip);
+
+            _inventoryManager.SetInventory(_playerInventory, _playerInventory.GetInventoryContainer());
+
+            // Remove item from equip slot
+            PlayerManager.Instance.HeadEquip = null;
+        }
+        else if (ItemData.ItemSlot == ItemData.ItemType.Weapon)
+        {
+            // Change icon Sprites to null
+            DatabaseManager.Instance.WeaponSlot.GetComponentInChildren<Icon>().gameObject.GetComponent<Image>().sprite = icon;
+
+            // Change visuals to null
+            PlayerManager.Instance.WeaponFront.sprite = null;
+            PlayerManager.Instance.WeaponBack.sprite = null;
+            PlayerManager.Instance.WeaponLeft.sprite = null;
+            PlayerManager.Instance.WeaponRight.sprite = null;
+
+            // Add item to inventory
+            _playerInventory.AddItem(PlayerManager.Instance.WeaponEquip);
+
+            _inventoryManager.SetInventory(_playerInventory, _playerInventory.GetInventoryContainer());
+
+            // Remove item from equip slot
+            PlayerManager.Instance.WeaponEquip = null;
+        }
+        else if (ItemData.ItemSlot == ItemData.ItemType.Shield)
+        {
+            // Change icon Sprites to null
+            DatabaseManager.Instance.ShieldSlot.GetComponentInChildren<Icon>().gameObject.GetComponent<Image>().sprite = icon;
+
+            // Change visuals to null
+            PlayerManager.Instance.ShieldFront.sprite = null;
+            PlayerManager.Instance.ShieldBack.sprite = null;
+            PlayerManager.Instance.ShieldLeft.sprite = null;
+            PlayerManager.Instance.ShieldRight.sprite = null;
+
+            // Add item to inventory
+            _playerInventory.AddItem(PlayerManager.Instance.ShieldEquip);
+
+            _inventoryManager.SetInventory(_playerInventory, _playerInventory.GetInventoryContainer());
+
+            // Remove item from equip slot
+            PlayerManager.Instance.ShieldEquip = null;
+        }
+
+        // Destroy inventory entries
+        DestroyInventoryEntries(_playerInventory);
+
+        // Setup the new entries
+        _inventoryManager.SetInventory(_playerInventory, DatabaseManager.Instance.InventoryContainer);
+
+        ItemData = null;
+    }
+
+    void DestroyInventoryEntries(Inventory inventory)
+    {
+        // Destroy inventory entries
+        for (int i = 1; i < inventory.GetInventoryContainer().transform.childCount; i++)
+        {
+            Destroy(inventory.GetInventoryContainer().transform.GetChild(i).gameObject);
         }
     }
 }

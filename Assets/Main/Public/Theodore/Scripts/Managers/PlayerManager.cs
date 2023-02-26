@@ -40,6 +40,11 @@ public class PlayerManager : MonoBehaviour
     public SpriteRenderer ShieldLeft;
     public SpriteRenderer ShieldRight;
 
+    // Equipped Items
+    public Item HeadEquip;
+    public Item WeaponEquip;
+    public Item ShieldEquip;
+
     private void Awake()
     {
         Instance = this;

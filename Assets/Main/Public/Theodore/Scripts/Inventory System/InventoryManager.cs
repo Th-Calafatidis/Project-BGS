@@ -27,7 +27,7 @@ public class InventoryManager : MonoBehaviour
         RefreshInventoryItems(containerUI);
     }
 
-    private void RefreshInventoryItems(Transform containerUI)
+    public void RefreshInventoryItems(Transform containerUI)
     {
         foreach (Item item in _inventory.GetItemList())
         {
